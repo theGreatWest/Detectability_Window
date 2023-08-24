@@ -10,18 +10,21 @@ import matplotlib.image as img
 from answer import set_answer, get_num, set_num, get_answer
 import sys
 
+
 def res_path(relative_path):
     try:
-        base_path=sys._MEIPASS
+        base_path = sys._MEIPASS
     except Exception:
-        base_path=os.path.abspath(".")
-    return os.path.join(base_path,relative_path)
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
 
 tutorial_path = res_path("fold_db/tutorial")
 tp = os.listdir(tutorial_path)
 tutorial_answer_path = res_path("fold_db/tutorial_answer")
 
 qna = []
+
 
 def select_tutorial():
     global tp
@@ -31,6 +34,7 @@ def select_tutorial():
         tutorial_10.append(tp[idx])
         tp.remove(tp[idx])
     return tutorial_10
+
 
 window = tkinter.Tk()
 window.configure(background='black')
@@ -53,25 +57,29 @@ for q in select_10:
     tmp.append(a_path)
 select_answer_real = [tkinter.PhotoImage(file=path) for path in tmp]
 
-tutorial_list = [os.path.join(tutorial_path, filename) for filename in select_10]
+tutorial_list = [os.path.join(tutorial_path, filename)
+                 for filename in select_10]
 c_img = [Image.open(path) for path in tutorial_list]
 c_pthoto = [ImageTk.PhotoImage(li) for li in c_img]
 
 total = 1
 cnt = 0
 tutorial_txt = f"Tutorial # {cnt} / 10"  # 중앙 글씨
-txt_label = tkinter.Label(window, name="txt_label", text=tutorial_txt, foreground='white', background='black', font='Helvetica 28 bold')
+txt_label = tkinter.Label(window, name="txt_label", text=tutorial_txt,
+                          foreground='white', background='black', font='Helvetica 28 bold')
 txt_label.place(x=570, y=130)
 right_answer = ""
 
 if cnt == 0:
     img = c_img[0]  # 중앙 이미지
-    middle_img_label = Canvas(width=img.width, height=img.height, bd=0, bg='black', highlightcolor='black', highlightbackground='black')
+    middle_img_label = Canvas(width=img.width, height=img.height, bd=0,
+                              bg='black', highlightcolor='black', highlightbackground='black')
     middle_img_label.create_image(180, 180, image=c_pthoto[0])
-    middle_img_label.place(x=500, y=200)
+    middle_img_label.place(x=560, y=220)
 
 right_img_label = Canvas()
 left_img_label = Canvas()
+
 
 def add_func(score):
     global txt_label
@@ -117,14 +125,16 @@ def add_func(score):
         left_img_label = Canvas(width=img.width, height=img.height, bd=0,
                                 bg='black', highlightcolor='black', highlightbackground='black')
         left_img_label.create_image(180, 180, image=c_pthoto[cnt])
-        left_img_label.place(x=300, y=200)
+        left_img_label.place(x=410, y=220)
 
     else:
         left_img_label.delete('all')
         img = c_img[cnt]  # 중앙 이미지
-        right_img_label = Canvas(width=img.width, height=img.height, bd=0, bg='black', highlightcolor='black', highlightbackground='black')
+        right_img_label = Canvas(width=img.width, height=img.height, bd=0,
+                                 bg='black', highlightcolor='black', highlightbackground='black')
         right_img_label.create_image(180, 180, image=c_pthoto[cnt])
-        right_img_label.place(x=680, y=200)
+        right_img_label.place(x=680, y=220)
+
 
 def on_key_press(event):
     if event.char == "1":
@@ -138,6 +148,7 @@ def on_key_press(event):
     elif event.char == "5":
         b5.invoke()
 
+
 def stop_start(event):
     btn_list = [b1, b2, b3, b4, b5]
     if b1["state"] == 'normal':
@@ -146,6 +157,7 @@ def stop_start(event):
     else:
         for btn in btn_list:
             btn.config(state='normal')
+
 
 b1 = tkinter.Button(window, text='[1]\nDefinitely Absent', background='white', foreground='black', font='Helvetica 16 bold',
                     relief='groove', borderwidth=1, width=14, height=2, highlightcolor='white', command=lambda: add_func(1), highlightbackground='white')
@@ -161,7 +173,7 @@ b5 = tkinter.Button(window, text='[5]\nDefinitely Present', background='white', 
 btn_list = [b1, b2, b3, b4, b5]
 btn_interval = 1
 for btn in btn_list:
-    btn.place(x=200*btn_interval, y=650)
+    btn.place(x=200*btn_interval, y=580)
     btn_interval += 1
 
 window.bind("<KeyPress>", on_key_press)

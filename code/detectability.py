@@ -10,12 +10,14 @@ import matplotlib.image as img
 from info import name_1, affiliation_1
 import sys
 
+
 def res_path(relative_path):
     try:
-        base_path=sys._MEIPASS
+        base_path = sys._MEIPASS
     except Exception:
-        base_path=os.path.abspath(".")
-    return os.path.join(base_path,relative_path)
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
 
 window = tkinter.Tk()
 window.configure(background='black')
@@ -53,26 +55,31 @@ select_answer_photoImg = [tkinter.PhotoImage(
 total = 1
 cnt = 0
 tutorial_txt = f"Problem # {cnt} / {len(tp)}"  # 중앙 글씨
-txt_label = tkinter.Label(window, text=tutorial_txt, foreground='white',background='black', font='Helvetica 28 bold')
+txt_label = tkinter.Label(window, text=tutorial_txt, foreground='white',
+                          background='black', font='Helvetica 28 bold')
 txt_label.place(x=543, y=130)
 right_answer = ""
 
 if cnt == 0:
     img = c_img[0]  # 중앙 이미지
-    middle_img_label = Canvas(width=img.width, height=img.height, bd=0,bg='black', highlightcolor='black', highlightbackground='black')
+    middle_img_label = Canvas(width=img.width, height=img.height, bd=0,
+                              bg='black', highlightcolor='black', highlightbackground='black')
     middle_img_label.create_image(180, 180, image=c_pthoto[0])
-    middle_img_label.place(x=500, y=200)
+    middle_img_label.place(x=560, y=220)
 
 right_img_label = Canvas()
 left_img_label = Canvas()
+
 
 def make_csv(qna):
     global name_1
     global affiliation_1
 
-    df = pd.DataFrame(qna, columns=['Question_Path', 'Answer_Path', 'Score', 'Answer', 'Result'])
+    df = pd.DataFrame(
+        qna, columns=['Question_Path', 'Answer_Path', 'Score', 'Answer', 'Result'])
     p = res_path(f"result_csv/CATPHAN_{affiliation_1}_{name_1}.csv")
     df.to_csv(p)
+
 
 def add_func(score):
 
@@ -117,17 +124,19 @@ def add_func(score):
     if cnt % 2 == 0:
         right_img_label.delete('all')
         img = c_img[cnt]  # 중앙 이미지
-        left_img_label = Canvas(width=img.width, height=img.height, bd=0,bg='black', highlightcolor='black', highlightbackground='black')
+        left_img_label = Canvas(width=img.width, height=img.height, bd=0,
+                                bg='black', highlightcolor='black', highlightbackground='black')
         left_img_label.create_image(180, 180, image=c_pthoto[cnt])
-        left_img_label.place(x=300, y=200)
+        left_img_label.place(x=400, y=220)
 
     else:
         left_img_label.delete('all')
         img = c_img[cnt]  # 중앙 이미지
-        right_img_label = Canvas(width=img.width, height=img.height, bd=0, bg='black', highlightcolor='black', highlightbackground='black')
+        right_img_label = Canvas(width=img.width, height=img.height, bd=0,
+                                 bg='black', highlightcolor='black', highlightbackground='black')
         right_img_label.create_image(180, 180, image=c_pthoto[cnt])
-        right_img_label.place(x=680, y=200)
-    
+        right_img_label.place(x=700, y=220)
+
 
 def on_key_press(event):
     if event.char == "1":
@@ -141,6 +150,7 @@ def on_key_press(event):
     elif event.char == "5":
         b5.invoke()
 
+
 def stop_start(event):
     btn_list = [b1, b2, b3, b4, b5]
     if b1["state"] == 'normal':
@@ -149,6 +159,7 @@ def stop_start(event):
     else:
         for btn in btn_list:
             btn.config(state='normal')
+
 
 # 버튼 생성
 b1 = tkinter.Button(window, text='[1]\nDefinitely Absent', background='white', foreground='black', font='Helvetica 16 bold',
@@ -165,7 +176,7 @@ b5 = tkinter.Button(window, text='[5]\nDefinitely Present', background='white', 
 btn_list = [b1, b2, b3, b4, b5]
 btn_interval = 1
 for btn in btn_list:
-    btn.place(x=200*btn_interval, y=650)
+    btn.place(x=200*btn_interval, y=580)
     btn_interval += 1
 
 window.bind("<KeyPress>", on_key_press)
